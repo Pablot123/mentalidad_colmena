@@ -60,13 +60,13 @@ def option_control(chosen_option):
         print('¡¡¡WRONG OPTION, enter a value between 1-3!!! ')
         return True
     
+def main():
+    flag = True
+    while flag:
+        print(menu())
+        chosen_option = int(input('Option number: '))
+        flag = option_control(chosen_option)
 
-flag = True
-
-while flag:
-    print(menu())
-    chosen_option = int(input('Option number: '))
-    flag = option_control(chosen_option)
-
+main()
 
 
