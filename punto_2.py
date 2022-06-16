@@ -30,39 +30,43 @@ def decoding(coded_message):
     decoded_message_str = ''.join(decoded_message_list)        
     return decoded_message_str
 
-def menu(menu_chosen_option):
-    menu_principal = '''
-    Select an option:
-    1. Encoding message
-    2. Decoding message
-    3. Exit
-    '''
-    menu_secundario = '''
-    1. Main menu
-    2. Exit
-    '''
+def menu():
+    menu =  '''
+        Select an option:
+        1. Encoding message
+        2. Decoding message
+        3. Exit
+        '''
+    return menu
 
-flag = True
-while flag:
-    menu = '''
-    Select an option:
-    1. Encoding message
-    2. Decoding message
-    3. Exit
-    '''
-    print(menu)
-    chosen_option = int(input('Option number: '))
+
+def option_control(chosen_option):
     if chosen_option ==1:
         message = input('Enter the message to encode: ')
         encoded_message = coding(message)
-        print(encoded_message)
+        print(f'Encoded Message: {encoded_message}')
+        
+        return True
+
     elif chosen_option ==2:
         cod_message = input('Enter the message to decode: ')
         decoded_message=decoding(cod_message)
-        print(decoded_message)
-    elif chosen_option ==3:
-        flag = False
+        print(f'Decoded Message: {decoded_message}')
+        return True
+        
+    elif chosen_option == 3:
+        return False
     else:
         print('¡¡¡WRONG OPTION, enter a value between 1-3!!! ')
+        return True
+    
+
+flag = True
+
+while flag:
+    print(menu())
+    chosen_option = int(input('Option number: '))
+    flag = option_control(chosen_option)
+
 
 
