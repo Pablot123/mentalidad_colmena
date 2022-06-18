@@ -59,21 +59,13 @@ def organice_information(all_data):
     
     return organiced_info
 
-with open(rf'{path}\required_data_prueba.txt', 'r+', encoding='utf-8') as file:
-
-    list_form_text = file.readlines()
-
-clean_data = cleaning_form_data(list_form_text)
-
-organice_information(clean_data)
-
 def has_family(family_member):
     if family_member =='Y':
         return True
     elif family_member == 'N':
         return False
 
-def capturing_information():
+def family_members():
     information_complete = False
     while not information_complete:
         mother = input('do you have mother? (y/n): ').upper()
@@ -114,8 +106,68 @@ def capturing_information():
     return has_mother, has_father, has_brother, has_sister
         
 
-#has_mom, has_dad, has_bro, has_sis = capturing_information()
+def capturing_information(dict_form):
+    dict_filled_information = {}
+    
+    personal_info = []
+    family_info_mother = []
+    family_info_father = []
+    family_info_brother = []
+    family_info_sister = []
+    has_mom, has_dad, has_bro, has_sis = family_members()
+    print('Please enter the following personal information:')
+    for personal in dict_form['personal_info']:
+        info = input(f'{personal}: ')
+        if info == '' and '*' in personal:
+            personal_info.append('unknow')
+        else:
+            personal_info.append(info)
+    if has_mom:
+        print('Mother information'.center(50,'-'))
+        for mother in dict_form['family_info']['mother']:
+            info = input(f'{mother}: ')
+            family_info_mother.append(info)
+    else:
+        for mother in dict_form['family_info']['mother']:
+            family_info_mother.append('None')
 
-#dividir el array entre informacion personal y de la familia, subdividiendo el de la familia entre 
-#cada uno de los miembros
+    
+    if has_dad:
+        print('Father information'.center(50,'-'))
+        for father in dict_form['family_info']['father']:
+            info = input(f'{father}: ')
+            family_info_father.append(info)
+    else:
+        for father in dict_form['family_info']['father']:
+            family_info_father.append('None')
 
+
+    if has_bro:
+        print('Brother information'.center(50,'-'))
+        for brother in dict_form['family_info']['brother']:
+            info = input(f'{brother}: ')
+            family_info_brother.append(info)
+    else:
+        for brother in dict_form['family_info']['brother']:
+            family_info_brother.append('None')
+    
+    if has_sis:
+        print('Sister information'.center(50,'-'))
+        for sister in dict_form['family_info']['brother']:
+            info = input(f'{sister}: ')
+            family_info_sister.append(info)
+    else:
+        for sister in dict_form['family_info']['brother']:
+            family_info_sister.append('None')
+            
+    return personal_info, family_info_mother, family_info_father, family_info_brother, family_info_sister
+    
+
+with open(rf'{path}\required_data_prueba.txt', 'r+', encoding='utf-8') as file:
+
+    list_form_text = file.readlines()
+
+clean_data = cleaning_form_data(list_form_text)
+organiced_data = organice_information(clean_data)
+
+personal, fam_mom, fam_dad, fal_bro, fam_sis = capturing_information(organiced_data)
