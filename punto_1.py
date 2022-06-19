@@ -1,5 +1,4 @@
 import os
-from tkinter import N
 
 path = rf'{os.getcwd()}' 
 def cleaning_text(text):
@@ -119,55 +118,150 @@ def capturing_information(dict_form):
     for personal in dict_form['personal_info']:
         info = input(f'{personal}: ')
         if info == '' and '*' in personal:
-            personal_info.append('unknow')
+            personal_info.append((personal,'unknow'))
         else:
-            personal_info.append(info)
+            personal_info.append((personal,info))
     if has_mom:
         print('Mother information'.center(50,'-'))
         for mother in dict_form['family_info']['mother']:
             info = input(f'{mother}: ')
-            family_info_mother.append(info)
+            if info == '' and '*' in mother:
+                family_info_mother.append((mother,'unknow'))
+            else:
+                family_info_mother.append((mother, info))
     else:
         for mother in dict_form['family_info']['mother']:
-            family_info_mother.append('None')
+            family_info_mother.append((mother,'None'))
 
     
     if has_dad:
         print('Father information'.center(50,'-'))
         for father in dict_form['family_info']['father']:
-            info = input(f'{father}: ')
-            family_info_father.append(info)
+            info = input(f'{father}: ') 
+            if info == '' and '*' in father:
+                family_info_father.append((father, 'unknow'))
+            else:
+                family_info_father.append((father, info))
     else:
         for father in dict_form['family_info']['father']:
-            family_info_father.append('None')
+            family_info_father.append((father, 'None'))
 
 
     if has_bro:
         print('Brother information'.center(50,'-'))
         for brother in dict_form['family_info']['brother']:
             info = input(f'{brother}: ')
-            family_info_brother.append(info)
+            if info == '' and '*' in brother:
+                family_info_brother.append((brother, 'unknow'))
+            else:
+                family_info_brother.append((brother, info))
     else:
         for brother in dict_form['family_info']['brother']:
-            family_info_brother.append('None')
+            family_info_brother.append((brother, 'None'))
     
     if has_sis:
         print('Sister information'.center(50,'-'))
         for sister in dict_form['family_info']['brother']:
             info = input(f'{sister}: ')
-            family_info_sister.append(info)
+            if info == '' and '*' in sister:
+                family_info_sister.append((sister, 'unknow'))
+            else:
+                family_info_sister.append((sister, info))
     else:
         for sister in dict_form['family_info']['brother']:
-            family_info_sister.append('None')
-            
-    return personal_info, family_info_mother, family_info_father, family_info_brother, family_info_sister
+            family_info_sister.append((sister, 'None'))
     
+    dict_filled_information['personal'] = personal_info
+    dict_filled_information['fam_mom'] = family_info_mother
+    dict_filled_information['fam_dad'] = family_info_father
+    dict_filled_information['fam_bro'] = family_info_brother
+    dict_filled_information['fam_sis'] = family_info_sister
+    return dict_filled_information
 
-with open(rf'{path}\required_data_prueba.txt', 'r+', encoding='utf-8') as file:
+def fill_ubication(line, personal_data, mother_data, father_data, brother_data, sister_data):
+    if 'Personal data' in line:
+        personal_data = True
+        mother_data = False
+        father_data = False
+        brother_data = False
+        sister_data = False
+    
+    elif 'Mother' in line:
+        personal_data = False
+        mother_data = True
+        father_data = False
+        brother_data = False
+        sister_data = False
+
+    elif 'Father' in line:
+        personal_data = False
+        mother_data = False
+        father_data = True
+        brother_data = False
+        sister_data = False
+    elif 'Brother' in line:
+        personal_data = False
+        mother_data = False
+        father_data = False
+        brother_data = True
+        sister_data = False
+    elif 'Sister' in line:
+        personal_data = False
+        mother_data = False
+        father_data = False
+        brother_data = False
+        sister_data = True
+    else:
+        pass
+    
+    return personal_data, mother_data, father_data, brother_data, sister_data
+
+with open(rf'{path}\required_data_prueba.txt', 'r', encoding='utf-8') as file:
 
     list_form_text = file.readlines()
 
 clean_data = cleaning_form_data(list_form_text)
 organiced_data = organice_information(clean_data)
 
-personal, fam_mom, fam_dad, fal_bro, fam_sis = capturing_information(organiced_data)
+full_information_filled = capturing_information(organiced_data)
+#print(full_information_filled)
+'''
+{'personal': [('Full name*', ' '), ('Age*', 'unknow'), ('Height*', 'unknow'), ('Weight*', 'unknow'), ('Bloodtype*', 'unknow'), 
+('Illnesses*', 'unknow'), ('Profession*', 'unknow'), ('Home country*', 'unknow'), ('Home city*', 'unknow'), ('Address', ''), 
+('Contact number', ''), ('Emergency contact*', 'unknow'), ('Email*', 'unknow')], 'fam_mom': [('Full name*', 'unknow'), 
+('Age*', 'unknow'), ('Bloodtype*', 'unknow'), ('Illnesses*', 'unknow'), ('Profession', ''), ('Home country*', 'unknow'), 
+('Home city*', 'unknow'), ('Address*', 'unknow'), ('Contact number*', 'unknow'), ('Email', '')], 'fam_dad': [('Full name*', 'unknow'), 
+('Age*', 'unknow'), ('Bloodtype*', 'unknow'), ('Illnesses*', 'unknow'), ('Profession', ''), ('Home country*', 'unknow'), ('Home city*', 'unknow'), 
+('Address*', 'unknow'), ('Contact number*', 'unknow'), ('Email', '')], 'fam_bro': [('Full name*', 'unknow'), ('Age*', 'unknow'), ('Bloodtype*', 'unknow'), 
+('Illnesses*', 'unknow'), ('Profession*', 'unknow'), ('Home country', ''), ('Home city', ''), ('Address', ''), ('Contact number*', 'unknow'), ('Email', '')], 
+'fam_sis': [('Full name*', 'unknow'), ('Age*', 'unknow'), ('Bloodtype*', 'unknow'), ('Illnesses*', 'unknow'), ('Profession*', 'unknow'), ('Home country', ''), 
+('Home city', ''), ('Address', ''), ('Contact number*', 'unknow'), ('Email', '')]}
+'''
+'''
+with open(rf'{path}\required_data_prueba.txt', 'r', encoding='utf-8') as file:
+    #primero la informacion personal
+    personal_section, mom_section, dad_section, bro_section, sis_section = False, False, False, False, False
+    for line in file:
+        personal_section, mom_section, dad_section, bro_section, sis_section = fill_ubication(line, personal_section, mom_section, dad_section, bro_section, sis_section)
+        
+        if personal_section:
+            for item, data in full_information_filled['personal']:
+                if item in line:
+                    file.write(data)
+                else:
+                    continue
+
+'''
+with open(rf'{path}\required_data_prueba.txt', 'r') as istr:
+    with open(rf'{path}\required_data_prueba.txt', 'a') as ostr:
+        personal_section, mom_section, dad_section, bro_section, sis_section = False, False, False, False, False
+        for line in istr:
+            personal_section, mom_section, dad_section, bro_section, sis_section = fill_ubication(line, personal_section, mom_section, dad_section, bro_section, sis_section)
+            
+            if personal_section:
+                for item, data in full_information_filled['personal']:
+                    if item in line:
+                        #ostr.write(data)
+                        print(data, file=ostr)
+                    else:
+                        pass
