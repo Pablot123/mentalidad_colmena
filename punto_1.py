@@ -209,7 +209,7 @@ def fill_ubication(line, personal_data, mother_data, father_data, brother_data, 
     
     return personal_data, mother_data, father_data, brother_data, sister_data
 
-with open(rf'{path}\required_data_prueba.txt', 'r', encoding='utf-8') as file:
+with open(rf'{path}\required_data.txt', 'r', encoding='utf-8') as file:
 
     list_form_text = file.readlines()
 
@@ -230,8 +230,8 @@ full_information_filled = capturing_information(organiced_data)
 ('Home city', ''), ('Address', ''), ('Contact number*', 'unknow'), ('Email', '')]}
 '''
 name = full_information_filled['personal'][0][1]
-with open(rf'{path}\required_data_prueba.txt', 'r') as f:
-    with open(rf'{path}\{name}.txt', 'a') as out:
+with open(rf'{path}\required_data.txt', 'r') as f:
+    with open(rf'{path}\{name}_required_data.txt', 'a') as out:
         personal_section, mom_section, dad_section, bro_section, sis_section = False, False, False, False, False 
         p,m,d,b,s = True, True, True, True, True
         for line in f:
