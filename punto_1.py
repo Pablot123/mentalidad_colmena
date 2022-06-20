@@ -1,5 +1,4 @@
 import os
-
 path = rf'{os.getcwd()}' 
 def cleaning_text(text):
     '''
@@ -223,8 +222,8 @@ with open(rf'{path}\required_data_prueba.txt', 'r', encoding='utf-8') as file:
 clean_data = cleaning_form_data(list_form_text)
 organiced_data = organice_information(clean_data)
 
-full_information_filled = capturing_information(organiced_data)
-#print(full_information_filled)
+#full_information_filled = capturing_information(organiced_data)
+
 '''
 {'personal': [('Full name*', ' '), ('Age*', 'unknow'), ('Height*', 'unknow'), ('Weight*', 'unknow'), ('Bloodtype*', 'unknow'), 
 ('Illnesses*', 'unknow'), ('Profession*', 'unknow'), ('Home country*', 'unknow'), ('Home city*', 'unknow'), ('Address', ''), 
@@ -237,31 +236,25 @@ full_information_filled = capturing_information(organiced_data)
 'fam_sis': [('Full name*', 'unknow'), ('Age*', 'unknow'), ('Bloodtype*', 'unknow'), ('Illnesses*', 'unknow'), ('Profession*', 'unknow'), ('Home country', ''), 
 ('Home city', ''), ('Address', ''), ('Contact number*', 'unknow'), ('Email', '')]}
 '''
-'''
-with open(rf'{path}\required_data_prueba.txt', 'r', encoding='utf-8') as file:
-    #primero la informacion personal
-    personal_section, mom_section, dad_section, bro_section, sis_section = False, False, False, False, False
-    for line in file:
+# idea: trandormar el txt a csv para llenar el formulario con pandas y refresarlo a txt
+#with open(rf'{path}\prueba.txt', 'r') as istr:
+with open(rf'{path}\prueba.txt', 'r+') as f:
+    personal_section, mom_section, dad_section, bro_section, sis_section = False, False, False, False, False 
+
+    line = f.readline()
+    print(line)
+    while line:
+        print(f.tell())
+        line = f.readline()
+""" 
+    for line in istr:
         personal_section, mom_section, dad_section, bro_section, sis_section = fill_ubication(line, personal_section, mom_section, dad_section, bro_section, sis_section)
         
         if personal_section:
             for item, data in full_information_filled['personal']:
                 if item in line:
-                    file.write(data)
+                    #ostr.write(data)
+                    print(data, file=ostr)
                 else:
-                    continue
-
-'''
-with open(rf'{path}\required_data_prueba.txt', 'r') as istr:
-    with open(rf'{path}\required_data_prueba.txt', 'a') as ostr:
-        personal_section, mom_section, dad_section, bro_section, sis_section = False, False, False, False, False
-        for line in istr:
-            personal_section, mom_section, dad_section, bro_section, sis_section = fill_ubication(line, personal_section, mom_section, dad_section, bro_section, sis_section)
-            
-            if personal_section:
-                for item, data in full_information_filled['personal']:
-                    if item in line:
-                        #ostr.write(data)
-                        print(data, file=ostr)
-                    else:
-                        pass
+                    pass
+"""
