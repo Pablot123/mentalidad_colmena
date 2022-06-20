@@ -31,12 +31,7 @@ def cleaning_form_data(data):
     tupla_importance_data = []
     for dato in data:
         tupla_importance_data.append( cleaning_text(dato))
-        """ 
-        if '*' in dato:
-            tupla_importance_data.append(('important', cleaning_text(dato)))
-        else:
-            tupla_importance_data.append(('not-important', cleaning_text(dato)))
-        """
+
     return fix_list(tupla_importance_data)    
 
 def organice_information(all_data):
@@ -131,7 +126,6 @@ def capturing_information(dict_form):
     else:
         for mother in dict_form['family_info']['mother']:
             family_info_mother.append((mother,'None'))
-
     
     if has_dad:
         print('Father information'.center(50,'-'))
@@ -222,8 +216,7 @@ with open(rf'{path}\required_data_prueba.txt', 'r', encoding='utf-8') as file:
 clean_data = cleaning_form_data(list_form_text)
 organiced_data = organice_information(clean_data)
 
-#full_information_filled = capturing_information(organiced_data)
-
+full_information_filled = capturing_information(organiced_data)
 '''
 {'personal': [('Full name*', ' '), ('Age*', 'unknow'), ('Height*', 'unknow'), ('Weight*', 'unknow'), ('Bloodtype*', 'unknow'), 
 ('Illnesses*', 'unknow'), ('Profession*', 'unknow'), ('Home country*', 'unknow'), ('Home city*', 'unknow'), ('Address', ''), 
@@ -236,25 +229,66 @@ organiced_data = organice_information(clean_data)
 'fam_sis': [('Full name*', 'unknow'), ('Age*', 'unknow'), ('Bloodtype*', 'unknow'), ('Illnesses*', 'unknow'), ('Profession*', 'unknow'), ('Home country', ''), 
 ('Home city', ''), ('Address', ''), ('Contact number*', 'unknow'), ('Email', '')]}
 '''
-# idea: trandormar el txt a csv para llenar el formulario con pandas y refresarlo a txt
-#with open(rf'{path}\prueba.txt', 'r') as istr:
-with open(rf'{path}\prueba.txt', 'r+') as f:
-    personal_section, mom_section, dad_section, bro_section, sis_section = False, False, False, False, False 
-
-    line = f.readline()
-    print(line)
-    while line:
-        print(f.tell())
-        line = f.readline()
-""" 
-    for line in istr:
-        personal_section, mom_section, dad_section, bro_section, sis_section = fill_ubication(line, personal_section, mom_section, dad_section, bro_section, sis_section)
-        
-        if personal_section:
-            for item, data in full_information_filled['personal']:
-                if item in line:
-                    #ostr.write(data)
-                    print(data, file=ostr)
-                else:
-                    pass
-"""
+name = full_information_filled['personal'][0][1]
+with open(rf'{path}\required_data_prueba.txt', 'r') as f:
+    with open(rf'{path}\{name}.txt', 'a') as out:
+        personal_section, mom_section, dad_section, bro_section, sis_section = False, False, False, False, False 
+        p,m,d,b,s = True, True, True, True, True
+        for line in f:
+            personal_section, mom_section, dad_section, bro_section, sis_section = fill_ubication(line, personal_section, mom_section, dad_section, bro_section, sis_section)
+            
+            if personal_section:
+                if p:
+                    print('----PERSONAL INFORMATION----', file=out)
+                    p=False
+                for item, data in full_information_filled['personal']:
+                    if item in line:
+                        item_line = line.strip('\n')
+                        
+                        print(item_line, data, file=out)
+                    else:
+                        pass
+            if mom_section:
+                if m:
+                    print('----MOTHER INFORMATION----', file=out)
+                    m=False
+                for item, data in full_information_filled['fam_mom']:
+                    if item in line:
+                        item_line = line.strip('\n')
+                        item_line = item_line.lstrip()
+                        print(item_line, data, file=out)
+                    else:
+                        pass
+            if dad_section:
+                if d:
+                    print('----FATHER INFORMATION----', file=out)
+                    d=False
+                for item, data in full_information_filled['fam_dad']:
+                    if item in line:
+                        item_line = line.strip('\n')
+                        item_line = item_line.lstrip()
+                        print(item_line, data, file=out)
+                    else:
+                        pass
+            if bro_section:
+                if b:
+                    print('----BROTHER INFORMATION----', file=out)
+                    b=False
+                for item, data in full_information_filled['fam_bro']:
+                    if item in line:
+                        item_line = line.strip('\n')
+                        item_line = item_line.lstrip()
+                        print(item_line, data, file=out)
+                    else:
+                        pass
+            if sis_section:
+                if s:
+                    print('----SISTER INFORMATION----', file=out)
+                    s = False
+                for item, data in full_information_filled['fam_sis']:
+                    if item in line:
+                        item_line = line.strip('\n')
+                        item_line = item_line.lstrip()
+                        print(item_line, data, file=out)
+                    else:
+                        pass
