@@ -248,7 +248,7 @@ with open(rf'{path}\required_data.txt', 'r') as f:
                         print(item_line, data, file=out)
                     else:
                         pass
-            if mom_section:
+            elif mom_section:
                 if m:
                     print('----MOTHER INFORMATION----', file=out)
                     m=False
@@ -259,7 +259,7 @@ with open(rf'{path}\required_data.txt', 'r') as f:
                         print(item_line, data, file=out)
                     else:
                         pass
-            if dad_section:
+            elif dad_section:
                 if d:
                     print('----FATHER INFORMATION----', file=out)
                     d=False
@@ -270,7 +270,7 @@ with open(rf'{path}\required_data.txt', 'r') as f:
                         print(item_line, data, file=out)
                     else:
                         pass
-            if bro_section:
+            elif bro_section:
                 if b:
                     print('----BROTHER INFORMATION----', file=out)
                     b=False
@@ -281,7 +281,7 @@ with open(rf'{path}\required_data.txt', 'r') as f:
                         print(item_line, data, file=out)
                     else:
                         pass
-            if sis_section:
+            elif sis_section:
                 if s:
                     print('----SISTER INFORMATION----', file=out)
                     s = False
