@@ -245,14 +245,14 @@ def fill_ubication(line, personal_data, mother_data, father_data, brother_data, 
 
 with open(rf'{path}\required_data.txt', 'r', encoding='utf-8') as file:
 
-    list_form_text = file.readlines()
+    list_form_text = file.readlines() 
 
-clean_data = cleaning_form_data(list_form_text)
-organiced_data = organice_information(clean_data)
+clean_data = cleaning_form_data(list_form_text) #Clean data
+organiced_data = organice_information(clean_data)#Organice information
 
-full_information_filled = capturing_information(organiced_data)
+full_information_filled = capturing_information(organiced_data)# fill the information previulsy organiced
 
-name = full_information_filled['personal'][0][1]
+name = full_information_filled['personal'][0][1] #Name of the applicant to use as name of the new file
 per_section = '''
  -----------------------------------------------------------
 |                     Personal data                         |
@@ -266,16 +266,18 @@ fam_section = '''
 with open(rf'{path}\required_data.txt', 'r') as f:
     with open(rf'{path}\{name}_required_data.txt', 'a') as out:
         personal_section, mom_section, dad_section, bro_section, sis_section = False, False, False, False, False 
-        p,m,d,b,s = True, True, True, True, True
+        p,m,d,b,s = True, True, True, True, True # to control the text that are only write once
         for line in f:
+            #To know in wich section of the file we are, personal information section, mother information section
+            # father information section, etc...
             personal_section, mom_section, dad_section, bro_section, sis_section = fill_ubication(line, personal_section, mom_section, dad_section, bro_section, sis_section)
             
             if personal_section:
                 if p:
                     print(per_section, file=out)
                     p=False
-                for item, data in full_information_filled['personal']:
-                    if item in line:
+                for item, data in full_information_filled['personal']: 
+                    if item in line: # to match the information asked withe the data
                         item_line = line.strip('\n')
                         
                         print(item_line, data, file=out)
