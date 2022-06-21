@@ -1,8 +1,15 @@
 def coding(message_to_encode):
+    '''
+    Encode a given text
+    Recieve: A String with all the message
+    Return : A String with the encoded message
+    '''
     coded_message_list =[]
     for char in message_to_encode:
-        if char.isdigit():
+        if char.isdigit(): #We only chage the numeric values, the methos isdigit helps whit that
             int_char = int(char)
+            #I foun that to encode the numer we only need tu sustract the number to 10, except
+            # with 0 and 5
             if int_char == 5:
                 coded_message_list.append(str(0))
             elif int_char ==0:
@@ -15,6 +22,11 @@ def coding(message_to_encode):
     return coded_message_str
     
 def decoding(coded_message):
+    '''
+    Decode a message
+    Recieve: A String with the encoded message
+    Return : A string with the decoded message
+    '''
     decoded_message_list =[]
     for char in coded_message:
         if char.isdigit():
@@ -41,6 +53,11 @@ def menu():
 
 
 def option_control(chosen_option):
+    '''
+    To control the opcion of the menu
+    Recieve: an int with the chosen option from the user
+    Return: a Bollean to know if the program continue or not
+    '''
     if chosen_option ==1:
         message = input('Enter the message to encode: ')
         encoded_message = coding(message)
@@ -61,6 +78,9 @@ def option_control(chosen_option):
         return True
     
 def main():
+    '''
+    Run the program
+    '''
     flag = True
     while flag:
         print(menu())
