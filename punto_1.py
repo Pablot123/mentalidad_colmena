@@ -251,19 +251,18 @@ clean_data = cleaning_form_data(list_form_text)
 organiced_data = organice_information(clean_data)
 
 full_information_filled = capturing_information(organiced_data)
-'''
-{'personal': [('Full name*', ' '), ('Age*', 'unknow'), ('Height*', 'unknow'), ('Weight*', 'unknow'), ('Bloodtype*', 'unknow'), 
-('Illnesses*', 'unknow'), ('Profession*', 'unknow'), ('Home country*', 'unknow'), ('Home city*', 'unknow'), ('Address', ''), 
-('Contact number', ''), ('Emergency contact*', 'unknow'), ('Email*', 'unknow')], 'fam_mom': [('Full name*', 'unknow'), 
-('Age*', 'unknow'), ('Bloodtype*', 'unknow'), ('Illnesses*', 'unknow'), ('Profession', ''), ('Home country*', 'unknow'), 
-('Home city*', 'unknow'), ('Address*', 'unknow'), ('Contact number*', 'unknow'), ('Email', '')], 'fam_dad': [('Full name*', 'unknow'), 
-('Age*', 'unknow'), ('Bloodtype*', 'unknow'), ('Illnesses*', 'unknow'), ('Profession', ''), ('Home country*', 'unknow'), ('Home city*', 'unknow'), 
-('Address*', 'unknow'), ('Contact number*', 'unknow'), ('Email', '')], 'fam_bro': [('Full name*', 'unknow'), ('Age*', 'unknow'), ('Bloodtype*', 'unknow'), 
-('Illnesses*', 'unknow'), ('Profession*', 'unknow'), ('Home country', ''), ('Home city', ''), ('Address', ''), ('Contact number*', 'unknow'), ('Email', '')], 
-'fam_sis': [('Full name*', 'unknow'), ('Age*', 'unknow'), ('Bloodtype*', 'unknow'), ('Illnesses*', 'unknow'), ('Profession*', 'unknow'), ('Home country', ''), 
-('Home city', ''), ('Address', ''), ('Contact number*', 'unknow'), ('Email', '')]}
-'''
+
 name = full_information_filled['personal'][0][1]
+per_section = '''
+ -----------------------------------------------------------
+|                     Personal data                         |
+ -----------------------------------------------------------
+'''
+fam_section = '''
+ -----------------------------------------------------------
+|                       Family data                         |
+ -----------------------------------------------------------
+'''
 with open(rf'{path}\required_data.txt', 'r') as f:
     with open(rf'{path}\{name}_required_data.txt', 'a') as out:
         personal_section, mom_section, dad_section, bro_section, sis_section = False, False, False, False, False 
@@ -273,7 +272,7 @@ with open(rf'{path}\required_data.txt', 'r') as f:
             
             if personal_section:
                 if p:
-                    print('----PERSONAL INFORMATION----', file=out)
+                    print(per_section, file=out)
                     p=False
                 for item, data in full_information_filled['personal']:
                     if item in line:
@@ -284,57 +283,49 @@ with open(rf'{path}\required_data.txt', 'r') as f:
                         pass
             elif mom_section:
                 if m:
-                    print('----MOTHER INFORMATION----', file=out)
+                    print(fam_section, file=out)
+                    print('• Mother:', file=out)
                     m=False
                 for item, data in full_information_filled['fam_mom']:
                     if item in line:
                         item_line = line.strip('\n')
-                        item_line = item_line.lstrip()
+                        #item_line = item_line.lstrip()
                         print(item_line, data, file=out)
                     else:
                         pass
             elif dad_section:
                 if d:
-                    print('----FATHER INFORMATION----', file=out)
+                    print('', file=out)
+                    print('• Father:', file=out)
                     d=False
                 for item, data in full_information_filled['fam_dad']:
                     if item in line:
                         item_line = line.strip('\n')
-                        item_line = item_line.lstrip()
+                        #item_line = item_line.lstrip()
                         print(item_line, data, file=out)
                     else:
                         pass
             elif bro_section:
                 if b:
-                    print('----BROTHER INFORMATION----', file=out)
+                    print('', file=out)
+                    print('• Brother:', file=out)
                     b=False
                 for item, data in full_information_filled['fam_bro']:
                     if item in line:
                         item_line = line.strip('\n')
-                        item_line = item_line.lstrip()
+                        #item_line = item_line.lstrip()
                         print(item_line, data, file=out)
                     else:
                         pass
             elif sis_section:
                 if s:
-                    print('----SISTER INFORMATION----', file=out)
+                    print('', file=out)
+                    print('• Sister:', file=out)
                     s = False
                 for item, data in full_information_filled['fam_sis']:
                     if item in line:
                         item_line = line.strip('\n')
-                        item_line = item_line.lstrip()
+                        #item_line = item_line.lstrip()
                         print(item_line, data, file=out)
                     else:
                         pass
-
-'''
- -----------------------------------------------------------
-|                     Personal data                         |
- -----------------------------------------------------------
-'''
-
-'''
- -----------------------------------------------------------
-|                       Family data                         |
- -----------------------------------------------------------
-'''
