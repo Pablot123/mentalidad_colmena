@@ -2,8 +2,11 @@ import os
 path = rf'{os.getcwd()}' 
 def cleaning_text(text):
     '''
-    recive an string and clean the text, replacing some characters and deleating
-    the white spaces at the begining and the end
+    Clean the text, replacing some characters and deleating
+    the white spaces at the begining and the end.
+
+    recieves: an string 
+    Return: An String without come special characters
     '''
     clean_text =  text.replace('-','').replace('\n','').replace('\t','').replace('•', '').replace('|','').replace(':','')
     clean_text = clean_text.strip()
@@ -15,6 +18,8 @@ def cleaning_text(text):
 def fix_list(lista):
     '''
     ignore the elements with None 
+    Recieves: List of elements
+    Returns: List of elements without 'None' elementes
     '''
     fixed_list = []
     for element in lista:
@@ -26,15 +31,22 @@ def fix_list(lista):
 
 def cleaning_form_data(data):
     '''
-    Return a list of cleaned data
+    Proccess the data and clean the strings
+    Recieve: A list of strings
+    Return: A list of cleaned data
     '''
-    tupla_importance_data = []
+    list_importance_data = []
     for dato in data:
-        tupla_importance_data.append( cleaning_text(dato))
+        list_importance_data.append(cleaning_text(dato))
 
-    return fix_list(tupla_importance_data)    
+    return fix_list(list_importance_data)    
 
 def organice_information(all_data):
+    '''
+    Organice the data in a dictionary
+    Recieve: All the cleaned data
+    Return: a dictionary in wich each key is a section of the requiered_data file
+    '''
     organiced_info = {'personal_info':[], 'family_info':{'mother':[], 'father':[],
                      'brother':[], 'sister':[]} }
     
@@ -53,12 +65,21 @@ def organice_information(all_data):
     return organiced_info
 
 def has_family(family_member):
+    '''
+    Used to know if the applicant has member family
+    recieve: a string
+    Return : A boolean
+    '''
     if family_member =='Y':
         return True
     elif family_member == 'N':
         return False
 
 def family_members():
+    '''
+    Ask the user if he has mother, father, brother or sister
+    Return: a tuple of 4 boolean in the same order describer above
+    '''
     information_complete = False
     while not information_complete:
         mother = input('do you have mother? (y/n): ').upper()
@@ -100,6 +121,13 @@ def family_members():
         
 
 def capturing_information(dict_form):
+    '''
+    take all the information of the user in the required_data file
+    Recive: a dictionary where each key is a section of the form and each value 
+            is a required data
+    return: a dictionary where each key is a section of the required data and ech value
+            is a list of tuples with (required_data, data given by the user)
+    '''
     dict_filled_information = {}
     
     personal_info = []
@@ -172,6 +200,12 @@ def capturing_information(dict_form):
     return dict_filled_information
 
 def fill_ubication(line, personal_data, mother_data, father_data, brother_data, sister_data):
+    '''
+    To know in wich part of the required_data file is the writing prograam
+    Recieve: a Line of the file and 5 boolean initialiced
+    Return: a tuple of 5 boolean Where only one is 'True' and indicates in wich part of the file
+            if filling the information
+    '''
     if 'Personal data' in line:
         personal_data = True
         mother_data = False
