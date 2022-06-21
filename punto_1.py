@@ -50,12 +50,15 @@ def organice_information(all_data):
     organiced_info = {'personal_info':[], 'family_info':{'mother':[], 'father':[],
                      'brother':[], 'sister':[]} }
     
-    personal_data = all_data[all_data.index('Personal data')+1:all_data.index('Family data')] #para que comience despues de Personal data
+    #I use slicing to take the information required by each section
+    #The +1 is to only take the information required
+    personal_data = all_data[all_data.index('Personal data')+1:all_data.index('Family data')] 
     family_data_mother = all_data[all_data.index('Mother')+1:all_data.index('Father')]
     family_data_father = all_data[all_data.index('Father')+1:all_data.index('Brother')]
     family_data_brother = all_data[all_data.index('Brother')+1:all_data.index('Sister')]
     family_data_sister = all_data[all_data.index('Sister')+1:]
 
+    #Add the information to a dictionary
     organiced_info['personal_info'] = personal_data
     organiced_info['family_info']['mother'] = family_data_mother
     organiced_info['family_info']['father'] = family_data_father
@@ -139,7 +142,7 @@ def capturing_information(dict_form):
     print('Please enter the following personal information:')
     for personal in dict_form['personal_info']:
         info = input(f'{personal}: ')
-        if info == '' and '*' in personal:
+        if info == '' and '*' in personal: #if the information is empty and the required info has a '*' we fill that info with 'unknow'
             personal_info.append((personal,'unknow'))
         else:
             personal_info.append((personal,info))
@@ -147,11 +150,13 @@ def capturing_information(dict_form):
         print('Mother information'.center(50,'-'))
         for mother in dict_form['family_info']['mother']:
             info = input(f'{mother}: ')
+            #if the information is empty and the required info has a '*' we fill that info with 'unknow'
             if info == '' and '*' in mother:
                 family_info_mother.append((mother,'unknow'))
             else:
                 family_info_mother.append((mother, info))
     else:
+        #if the applicant dosen´t have the family member we fill all the data with None
         for mother in dict_form['family_info']['mother']:
             family_info_mother.append((mother,'None'))
     
@@ -159,11 +164,13 @@ def capturing_information(dict_form):
         print('Father information'.center(50,'-'))
         for father in dict_form['family_info']['father']:
             info = input(f'{father}: ') 
+            #if the information is empty and the required info has a '*' we fill that info with 'unknow'
             if info == '' and '*' in father:
                 family_info_father.append((father, 'unknow'))
             else:
                 family_info_father.append((father, info))
     else:
+        #if the applicant dosen´t have the family member we fill all the data with None
         for father in dict_form['family_info']['father']:
             family_info_father.append((father, 'None'))
 
@@ -172,11 +179,13 @@ def capturing_information(dict_form):
         print('Brother information'.center(50,'-'))
         for brother in dict_form['family_info']['brother']:
             info = input(f'{brother}: ')
+            #if the information is empty and the required info has a '*' we fill that info with 'unknow'
             if info == '' and '*' in brother:
                 family_info_brother.append((brother, 'unknow'))
             else:
                 family_info_brother.append((brother, info))
     else:
+        #if the applicant dosen´t have the family member we fill all the data with None
         for brother in dict_form['family_info']['brother']:
             family_info_brother.append((brother, 'None'))
     
@@ -184,14 +193,17 @@ def capturing_information(dict_form):
         print('Sister information'.center(50,'-'))
         for sister in dict_form['family_info']['brother']:
             info = input(f'{sister}: ')
+            #if the information is empty and the required info has a '*' we fill that info with 'unknow'
             if info == '' and '*' in sister:
                 family_info_sister.append((sister, 'unknow'))
             else:
                 family_info_sister.append((sister, info))
     else:
+        #if the applicant dosen´t have the family member we fill all the data with None
         for sister in dict_form['family_info']['brother']:
             family_info_sister.append((sister, 'None'))
     
+    #Adding all the captured information in a dictionary
     dict_filled_information['personal'] = personal_info
     dict_filled_information['fam_mom'] = family_info_mother
     dict_filled_information['fam_dad'] = family_info_father
@@ -273,61 +285,66 @@ with open(rf'{path}\required_data.txt', 'r') as f:
             personal_section, mom_section, dad_section, bro_section, sis_section = fill_ubication(line, personal_section, mom_section, dad_section, bro_section, sis_section)
             
             if personal_section:
-                if p:
+                if p: # this conditional is to write at the begining of teh section only once
                     print(per_section, file=out)
                     p=False
+                #Taking the data from the dict, it came as a list of tuples (required info, data)
+                # ex, ('Full name*', 'Pablo tamayo')
                 for item, data in full_information_filled['personal']: 
                     if item in line: # to match the information asked withe the data
                         item_line = line.strip('\n')
-                        
-                        print(item_line, data, file=out)
+                        print(item_line, data, file=out) #adding the required data + data to the new file
                     else:
                         pass
             elif mom_section:
-                if m:
+                if m:# this conditional is to write at the begining of teh section only once
                     print(fam_section, file=out)
                     print('• Mother:', file=out)
                     m=False
-                for item, data in full_information_filled['fam_mom']:
-                    if item in line:
+                #Taking the data from the dict, it came as a list of tuples (required info, data)
+                # ex: ('Full name*', 'Pablo tamayo')
+                for item, data in full_information_filled['fam_mom']: 
+                    if item in line: # to match the information asked withe the data
                         item_line = line.strip('\n')
-                        #item_line = item_line.lstrip()
-                        print(item_line, data, file=out)
+                        print(item_line, data, file=out)#adding the required data + data to the new file
                     else:
                         pass
             elif dad_section:
-                if d:
+                if d:# this conditional is to write at the begining of teh section only once
                     print('', file=out)
                     print('• Father:', file=out)
                     d=False
+                #Taking the data from the dict, it came as a list of tuples (required info, data)
+                # ex: ('Full name*', 'Pablo tamayo')
                 for item, data in full_information_filled['fam_dad']:
-                    if item in line:
+                    if item in line: # to match the information asked withe the data
                         item_line = line.strip('\n')
-                        #item_line = item_line.lstrip()
-                        print(item_line, data, file=out)
+                        print(item_line, data, file=out) #adding the required data + data to the new file
                     else:
                         pass
             elif bro_section:
-                if b:
+                if b:# this conditional is to write at the begining of teh section only once
                     print('', file=out)
                     print('• Brother:', file=out)
                     b=False
+                #Taking the data from the dict, it came as a list of tuples (required info, data)
+                # ex, ('Full name*', 'Pablo tamayo')
                 for item, data in full_information_filled['fam_bro']:
-                    if item in line:
+                    if item in line: # to match the information asked withe the data
                         item_line = line.strip('\n')
-                        #item_line = item_line.lstrip()
-                        print(item_line, data, file=out)
+                        print(item_line, data, file=out) #adding the required data + data to the new file
                     else:
                         pass
             elif sis_section:
-                if s:
+                if s:# this conditional is to write at the begining of teh section only once
                     print('', file=out)
                     print('• Sister:', file=out)
                     s = False
+                #Taking the data from the dict, it came as a list of tuples (required info, data)
+                # ex, ('Full name*', 'Pablo tamayo')
                 for item, data in full_information_filled['fam_sis']:
-                    if item in line:
+                    if item in line: # to match the information asked withe the data
                         item_line = line.strip('\n')
-                        #item_line = item_line.lstrip()
-                        print(item_line, data, file=out)
+                        print(item_line, data, file=out) #adding the required data + data to the new file
                     else:
                         pass
